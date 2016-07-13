@@ -5,7 +5,7 @@
 ; For example: (power 3 2) = 3^2 = 9.
 
 (defn power
-  "Exponentiate a base b to a power n"
+  "Exponentiate a base to a power"
   [base power]
   (loop [b base 
          n power 

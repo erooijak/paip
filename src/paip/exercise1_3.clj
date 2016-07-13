@@ -5,7 +5,8 @@
 ; For example: (power 3 2) = 3^2 = 9.
 
 (defn count-atoms
-  "Count the atoms in an expression. nil is considered an atom."
+  "Count the symbols in an expression. nil is considered an atom."
   [expression]
-  ; TODO
-  )
+  (if (symbol? expression) 1
+      (+ (count-atoms (first expression))
+         (count-atoms (rest expression)))))
