@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [paip.exercise1_1 :refer :all]
             [paip.exercise1_2 :refer :all]
-            [paip.exercise1_3 :refer :all]))
+            [paip.exercise1_3 :refer :all]
+            [paip.exercise1_4 :refer :all]))
 
 (deftest test-exercise-1-1
   (testing "last-name"
@@ -22,3 +23,7 @@
     (is (count-atoms '(1 (2) 3)) 4)
     (is (count-atoms '(is (count-atoms '(1 (2) 3)) :a)) 4)
     (is (count-atoms '(1 nil 3)) 3)))
+
+(deftest test-exercise-1-4
+  (testing "count-anywhere"
+    (is (count-anywhere ':a '(:a :b :c)) 1)))
