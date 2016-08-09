@@ -1,12 +1,15 @@
 (ns paip.exercise1_3
   (:gen-class))
 
-; Exercise 1.2 [m] Write a function to exponentiate, or raise a number to an integer power.
-; For example: (power 3 2) = 3^2 = 9.
+; Exercise 1.3 [m] Write a function that counts the number of atoms in an expression.
+; For example: `(count-atoms '(a (b) c)) = 3. Notice that there is something of an ambiguity
+; in this: should (a nil c) count as three atoms, or as two, because it is equivalent to
+; (a () c)?
 
 (defn count-atoms
-  "Count the symbols in an expression. nil is considered an atom."
+  "Counts the number of elements in an expression. nil is considered an atom.
+   Clojure does not have true atoms, so better to call this method count-elements"
   [expression]
-  (if (symbol? expression) 1
-      (+ (count-atoms (first expression))
-         (count-atoms (rest expression)))))
+  (->> expression
+       flatten
+       count))

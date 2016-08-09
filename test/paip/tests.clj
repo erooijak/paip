@@ -18,4 +18,7 @@
 
 (deftest test-exercise-1-3
   (testing "count-atoms"
-    (is (count-atoms '(:a (:b) :c)) 3)))
+    (is (count-atoms '(1 2 3)) 3)
+    (is (count-atoms '(1 (2) 3)) 4)
+    (is (count-atoms '(is (count-atoms '(1 (2) 3)) :a)) 4)
+    (is (count-atoms '(1 nil 3)) 3)))
