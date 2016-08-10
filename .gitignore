@@ -1,6 +1,12 @@
 /.lein-env
 /.env
 
+# Own stuff
+TAGS
+.idea/*
+.hgignore
+*.iml
+
 # Created by https://www.gitignore.io/api/intellij,clojure,emacs,java,jboss,leiningen
 
 ### Intellij ###
