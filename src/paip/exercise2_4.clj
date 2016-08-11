@@ -20,4 +20,4 @@
 
 (defn combine-all
   [xlist ylist]
-  (cross-product list xlist ylist))
+  (cross-product concat xlist ylist))
