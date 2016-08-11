@@ -7,11 +7,6 @@
 ;;; Code translated from Paradigms of Artificial Intelligence Programming
 ;;; Copyright (c) 1991 Peter Norvig
 
-(defn random
-  "Returns a random between 0 (inclusive) and upper-bound (exclusive)"
-  [upper-bound]
-  (-> upper-bound rand int))
-
 (defn one-of
   "Pick one element of set, and make a list of it."
   [set]
@@ -130,6 +125,6 @@
         (mapcat generate-all (rewrites phrase))
         :else (list (list phrase))))
 
-(generate-all :Noun) 
+(generate-all :Noun)
 ; => (("table") ("man") ("woman") ("ball"))
 
