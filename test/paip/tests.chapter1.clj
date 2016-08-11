@@ -1,4 +1,4 @@
-(ns paip.tests
+(ns paip.chapter1.tests
   (:require [clojure.test :refer :all]
             [paip.exercise1_1 :refer :all]
             [paip.exercise1_2 :refer :all]

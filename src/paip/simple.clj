@@ -24,25 +24,25 @@
 (def bigger-grammar
   "A somewhat bigger grammar for a trivial subset of English"
   {:sentence    [[:noun-phrase :verb-phrase]]
-   :noun-phrase [[:Article :Adj* :Noun :PP*] [:Name] [:Pronoun]]
-   :verb-phrase [[:Verb :noun-phrase :PP*]]
-   :PP*         [[] [:PP :PP*]]
-   :Adj*        [[] [:Adj :Adj*]]
-   :PP          [[:Prep :noun-phrase]]
-   :Prep        #{"to" "in" "by" "with" "on"}
-   :Adj         #{"big" "little" "blue" "green" "adiabatic"}
-   :Article     #{"the" "a"}
-   :Name        #{"Pat" "Kim" "Lee" "Terry" "Robin"}
-   :Noun        #{"man" "ball" "woman" "table"}
-   :Verb        #{"hit" "took" "saw" "liked"}
-   :Pronoun     #{"he" "she" "it" "these" "those" "that"}})
+   :noun-phrase [[:article :adj* :noun :pp*] [:name] [:pronoun]]
+   :verb-phrase [[:verb :noun-phrase :pp*]]
+   :pp*         [[] [:pp :pp*]]
+   :adj*        [[] [:adj :adj*]]
+   :pp          [[:prep :noun-phrase]]
+   :prep        #{"to" "in" "by" "with" "on"}
+   :adj         #{"big" "little" "blue" "green" "adiabatic"}
+   :article     #{"the" "a"}
+   :name        #{"Pat" "Kim" "Lee" "Terry" "Robin"}
+   :noun        #{"man" "ball" "woman" "table"}
+   :verb        #{"hit" "took" "saw" "liked"}
+   :pronoun     #{"he" "she" "it" "these" "those" "that"}})
 
 ;;; ==============================
 
 (def grammar
   "The grammar used by generate.  Initially, this is
   simple-grammar, but we can switch to other grammars."
-  bigger-grammar)
+  simple-grammar)
 
 ;;; ==============================
 
@@ -108,23 +108,27 @@
   E.g., (combine-all '((a) (b)) '((1) (2)))
   -> ((A 1) (B 1) (A 2) (B 2))."
   [xlist ylist]
-  (partition 2
-             (mapcat (fn [y]
-                       (mapcat (fn [x] (concat x y)) xlist))
-                     ylist)))
+  (mapcat (fn [y]
+            (map (fn [x] (concat x y)) xlist))
+          ylist))
 
+;; TODO: There is a bug in generate-all. For sentences that are constructed out of noun-phrase
+;;       or verb-phrases the resulting sentences are displayed in characters.
 (defn generate-all
-  "Generate a list of all possible expansions of this phrase."
+  "Generate a list of all possible expansions of this phrase.
+   Only works for non-recursive grammars."
   [phrase]
-  (cond (nil? phrase)
-        (list nil)
-        (vector? phrase)
+  (cond (vector? phrase)
         (combine-all (generate-all (first phrase))
-                     (generate-all (rest phrase)))
+                     (mapcat generate-all (rest phrase)))
         (not (empty? (rewrites phrase)))
         (mapcat generate-all (rewrites phrase))
-        :else (list (list phrase))))
+        :else
+        (list phrase)))
 
-(generate-all :Noun)
-; => (("table") ("man") ("woman") ("ball"))
+(generate-all :noun)
+; => ("table" "man" "woman" "ball")
 
+(generate-all :noun-phrase)
+; => ((\a \t \a \b \l \e) (\t \h \e \t \a \b \l \e) (\a \m \a \n) (\t \h \e \m \a \n)
+;    (\a \w \o \m \a \n) (\t \h \e \w \o \m \a \n) (\a \b \a \l \l) (\t \h \e \b \a \l \l))
