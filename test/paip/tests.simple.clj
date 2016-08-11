@@ -53,11 +53,6 @@
   (testing "random-elt chooses an element from a list at random"
     (is (one-two-or-three? (random-elt '(1 2 3))))))
 
-(deftest test-flatten-once
-  (testing "flattens-once should flatten a collection one level"
-    (is (= (flatten-once '(([1 2]) ([3 4] [5 6]) ([7 8])))
-           '([1 2] [3 4] [5 6] [7 8])))))
-
 (deftest test-one-of
   (testing "one-of should pick one element of set, and make a list of it"
     (is (one-two-or-three-list? (one-of '(1 2 3))))))
@@ -67,5 +62,10 @@
     (is (= (rewrites :sentence) [[:noun-phrase :verb-phrase]]))))
 
 (deftest test-generate-sentence
-  (testing "generate sentence should generate a sentence of length 5"
-    (is (= (count (generate :sentence)) 5))))
+  (testing "generate sentence should generate a sentence of at least length 3"
+    (is (>= (count (generate :sentence)) 3))))
+
+(deftest test-combine-all
+  (testing "combine all should create all combinations"
+    (is (= (combine-all '((a) (b)) '((1) (2)))
+           '((a 1) (b 1) (a 2) (b 2))))))

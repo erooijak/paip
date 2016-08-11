@@ -17,11 +17,6 @@
   [set]
   (list (rand-nth set)))
 
-(defn flatten-once
-  "Flattens a collection one level"
-  [coll]
-  (apply concat coll))
-
 (def simple-grammar
   "A grammar for a trivial subset of English"
   {:sentence    [[:noun-phrase :verb-phrase]]
@@ -31,10 +26,28 @@
    :noun        #{"man" "ball" "woman" "table"}
    :verb        #{"hit" "took" "saw" "liked"}})
 
+(def bigger-grammar
+  "A somewhat bigger grammar for a trivial subset of English"
+  {:sentence    [[:noun-phrase :verb-phrase]]
+   :noun-phrase [[:Article :Adj* :Noun :PP*] [:Name] [:Pronoun]]
+   :verb-phrase [[:Verb :noun-phrase :PP*]]
+   :PP*         [[] [:PP :PP*]]
+   :Adj*        [[] [:Adj :Adj*]]
+   :PP          [[:Prep :noun-phrase]]
+   :Prep        #{"to" "in" "by" "with" "on"}
+   :Adj         #{"big" "little" "blue" "green" "adiabatic"}
+   :Article     #{"the" "a"}
+   :Name        #{"Pat" "Kim" "Lee" "Terry" "Robin"}
+   :Noun        #{"man" "ball" "woman" "table"}
+   :Verb        #{"hit" "took" "saw" "liked"}
+   :Pronoun     #{"he" "she" "it" "these" "those" "that"}})
+
+;;; ==============================
+
 (def grammar
   "The grammar used by generate.  Initially, this is
   simple-grammar, but we can switch to other grammars."
-  simple-grammar)
+  bigger-grammar)
 
 ;;; ==============================
 
@@ -65,56 +78,58 @@
         :else
         (list phrase)))
 
+(generate :sentence)
+; => (One example)
+;    ("Kim" "saw" "Pat")
+
 ;;; ==============================
 
-;(defparameter *bigger-grammar*
-;  '((sentence -> (noun-phrase verb-phrase))
-;    (noun-phrase -> (Article Adj* Noun PP*) (Name) (Pronoun))
-;    (verb-phrase -> (Verb noun-phrase PP*))
-;    (PP* -> () (PP PP*))
-;    (Adj* -> () (Adj Adj*))
-;    (PP -> (Prep noun-phrase))
-;    (Prep -> to in by with on)
-;    (Adj -> big little blue green adiabatic)
-;    (Article -> the a)
-;    (Name -> Pat Kim Lee Terry Robin)
-;    (Noun -> man ball woman table)
-;    (Verb -> hit took saw liked)
-;    (Pronoun -> he she it these those that)))
-;
-;;; (setf *grammar* *bigger-grammar*)
-;
-;;;; ==============================
-;
-;(defun generate-tree (phrase)
-;  "Generate a random sentence or phrase,
-;  with a complete parse tree."
-;  (cond ((listp phrase)
-;         (mapcar #'generate-tree phrase))
-;        ((rewrites phrase)
-;         (cons phrase
-;               (generate-tree (random-elt (rewrites phrase)))))
-;        (t (list phrase))))
-;
-;;;; ==============================
-;
-;(defun generate-all (phrase)
-;  "Generate a list of all possible expansions of this phrase."
-;  (cond ((null phrase) (list nil))
-;        ((listp phrase)
-;         (combine-all (generate-all (first phrase))
-;                      (generate-all (rest phrase))))
-;        ((rewrites phrase)
-;         (mappend #'generate-all (rewrites phrase)))
-;        (t (list (list phrase)))))
-;
-;(defun combine-all (xlist ylist)
-;  "Return a list of lists formed by appending a y to an x.
-;  E.g., (combine-all '((a) (b)) '((1) (2)))
-;  -> ((A 1) (B 1) (A 2) (B 2))."
-;  (mappend #'(lambda (y)
-;               (mapcar #'(lambda (x) (append x y)) xlist))
-;           ylist))
+(defn generate-tree
+  "Generate a random sentence or phrase,
+  with a complete parse tree."
+  [phrase]
+  (cond (vector? phrase)
+        (map generate-tree phrase)
+        (not (empty? (rewrites phrase)))
+        (cons phrase
+              (generate-tree (rand-nth (rewrites phrase))))
+        :else (list phrase)))
 
+(generate-tree :sentence)
+; => (one example)
+;    (:sentence (:noun-phrase (:Article "the")
+;                             (:Adj*)
+;                             (:Noun "ball")
+;                             (:PP*))
+;               (:verb-phrase (:Verb "liked")
+;                             (:noun-phrase
+;                              (:Name "Robin"))
+;                             (:PP*)))
 
+;;;; ==============================
+
+(defn combine-all
+  "Return a list of lists formed by appending a y to an x.
+  E.g., (combine-all '((a) (b)) '((1) (2)))
+  -> ((A 1) (B 1) (A 2) (B 2))."
+  [xlist ylist]
+  (partition 2
+             (mapcat (fn [y]
+                       (mapcat (fn [x] (concat x y)) xlist))
+                     ylist)))
+
+(defn generate-all
+  "Generate a list of all possible expansions of this phrase."
+  [phrase]
+  (cond (nil? phrase)
+        (list nil)
+        (vector? phrase)
+        (combine-all (generate-all (first phrase))
+                     (generate-all (rest phrase)))
+        (not (empty? (rewrites phrase)))
+        (mapcat generate-all (rewrites phrase))
+        :else (list (list phrase))))
+
+(generate-all :Noun) 
+; => (("table") ("man") ("woman") ("ball"))
 
