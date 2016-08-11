@@ -20,16 +20,16 @@
 
 (deftest test-exercise-1-3
   (testing "count-atoms"
-    (is (count-atoms '(1 2 3)) 3)
-    (is (count-atoms '(1 (2) 3)) 3)
-    (is (count-atoms '((1 (2) 3) :a)) 4)
-    (is (count-atoms '(1 nil 3)) 3)))
+    (is (= (count-atoms '(1 2 3))) 3)
+    (is (= (count-atoms '(1 (2) 3))) 3)
+    (is (= (count-atoms '((1 (2) 3)) :a)) 4)
+    (is (= (count-atoms '(1 nil 3))) 3)))
 
 (deftest test-exercise-1-4
   (testing "count-anywhere"
-    (is (count-anywhere ':a '(:a :b :c)) 1)
-    (is (count-anywhere ':a '(:a ((:a) :b) :c)) 2)))
+    (is (= (count-anywhere ':a '(:a :b :c))) 1)
+    (is (= (count-anywhere ':a '(:a ((:a) :b) :c)) 2))))
 
 (deftest test-exercise-1-5
   (testing "dot-product"
-    (is (dot-product '(10 20) '(3 4)) 110)))
+    (is (= (dot-product '(10 20) '(3 4)) 110))))

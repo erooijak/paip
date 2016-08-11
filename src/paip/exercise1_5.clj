@@ -12,3 +12,7 @@
     (+ (* (first coll1) (first coll2))
        (dot-product (rest coll1) (rest coll2)))))
 
+;(defn dot-product2
+;  "Calculates the dot product. Assuming vectors are of even length and consist of numbers."
+;  [coll1 coll2]
+;  (apply + (mapcat #(* %1 %2) coll1 coll2)))
