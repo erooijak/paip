@@ -10,7 +10,7 @@
 (defn one-of
   "Pick one element of set, and make a list of it."
   [set]
-  (list (rand-nth set)))
+  (-> set rand-nth list))
 
 (def simple-grammar
   "A grammar for a trivial subset of English"

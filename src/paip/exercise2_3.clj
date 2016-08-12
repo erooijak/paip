@@ -9,12 +9,12 @@
 ; We can rename a predicate:
 
 (defn non-terminal?
-  "Determines if a phrase is non terminal."
+  "Determines if a phrase is non-terminal."
   [phrase]
   (keyword? phrase))
 
 (defn generate-non-terminal
-  "Generate a random sentence or phrase"
+  "Generate a random sentence or phrase."
   [phrase]
   (cond (vector? phrase) (mapcat generate-non-terminal phrase)
         (non-terminal? phrase) (generate-non-terminal (rand-nth (paip.simple/rewrites phrase)))

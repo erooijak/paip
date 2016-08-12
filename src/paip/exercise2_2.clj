@@ -7,7 +7,7 @@
 ; computer language.
 
 (def simple-clj-grammar
-  "A grammar for a trivial subset of Clojure"
+  "A grammar for a trivial subset of Clojure."
   {:code                [[:definition-phrase :function-definition]]
    :definition-phrase   [[:definition :names :docstring]]
    :function-definition [[:library-definitions :parameter-types]]

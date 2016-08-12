@@ -8,7 +8,7 @@
 
 (defn count-atoms
   "Counts the number of elements in an expression. nil is considered an atom.
-   Clojure does not have true atoms, so better to call this method count-elements"
+  Clojure does not have true atoms, so better to call this method count-elements."
   [expression]
   (->> expression
        flatten

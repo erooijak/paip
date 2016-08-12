@@ -6,7 +6,7 @@
 
 (defn count-anywhere
   "Counts the number of times an expression occurs anywhere within another
-   expression"
+  expression."
   [expression-to-search expression]
   (->> expression
        flatten

@@ -10,7 +10,7 @@
 ; a keyword.
 
 (defn generate-without-calling-rewrites-twice
-  "Generate a random sentence or phrase"
+  "Generate a random sentence or phrase."
   [phrase]
   (cond (vector? phrase) (mapcat generate-without-calling-rewrites-twice phrase)
         (keyword? phrase) (generate-without-calling-rewrites-twice (rand-nth (paip.simple/rewrites phrase)))
