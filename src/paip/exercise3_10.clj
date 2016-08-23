@@ -1,8 +1,7 @@
 (ns paip.exercise3_10)
 
-; Exercise 3.10 [m] Write a version of 1ength using the function reduce.
+; Exercise 3.10 [m] Use a reference manual or descri be to figure out what the functions lcm
+; and nreconc do.
 
-(defn length
-  "Finds the length of coll using the function reduce."
-  [coll]
-  (reduce (fn [acc e] (inc acc)) coll))
+; `lcm` finds lowest common denominator and `nreconc` does some sort of reversing.
+; The first is available in Clojure contrib library, the second is not available in Clojure.
