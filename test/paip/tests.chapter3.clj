@@ -6,7 +6,7 @@
             [paip.exercise3_5 :refer :all]
             [paip.exercise3_8 :refer :all]
             [paip.exercise3_9 :refer :all]
-            [paip.exercise3_9 :refer :all]))
+            [paip.exercise3_12 :refer :all]))
 
 (deftest test-exercise-3-2
   (testing "cons special case of list*"
@@ -66,6 +66,8 @@
     (is (= (llast '(:t 1))
            :t)))
   (testing "get-value should return the value for a specified key from right to left"
+    (is (= (get-value :not-available '(:test-fn +))
+           nil))
     (is (= (get-value :test-fn '(:test-fn +))
            '+))
     (is (= (get-value :test-fn '(:test-fn - :test-fn +))

@@ -10,31 +10,19 @@
   (-> coll butlast last))
 
 (defn get-value
-  "Finds the value for a key from right to left. Returns value."
+  "Finds the value for a key from right to left. Returns value or nil if key not found."
   [key coll]
-  (if (= key (llast coll))
-    (last coll)
-    (recur key (drop-last 2 coll))))
+  (cond (< (count coll) 2) nil
+        (= key (llast coll)) (last coll)
+        :else (recur key (drop-last 2 coll))))
 
 (defn find-all
   "Find all those elements of sequence that match item, according to the keywords.
   Doesn't alter sequence."
   [item coll & options]
-  (cond
-    (and (some #(= :test-fn %) options) (some #(= :key-fn %) options))
-    (let [test-fn (get-value :test-fn options)
-          key-fn (get-value :key-fn options)
-          result (remove #(not (test-fn % item)) coll)
-          final-result (map key-fn result)]
-      final-result)
-    (some #(= :test-fn %) options)
-    (let [test-fn (get-value :test-fn options)
-          final-result (remove #(not (test-fn % item)) options)]
-      final-result)
-    (some #(= :key-fn %) options)
-    (let [key-fn (get-value :key-fn options)
-          result (remove #(not (= % item)) coll)
-          final-result (map key-fn result)]
-      final-result)
-    :else (remove #(not (= % item)) coll)))
+  (let [test-fn (or (get-value :test-fn options) '=)
+        key-fn (or (get-value :key-fn options) 'identity)
+        result (remove #(not (test-fn % item)) coll)
+        final-result (map key-fn result)]
+    final-result))
 
