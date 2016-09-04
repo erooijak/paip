@@ -7,7 +7,7 @@
 
 ; It is impossible to create an improper list with native Clojure data structures.
 
-(cons 2 3) ; => IllegalArgumentException (because 3 is not a sequence)
+; (cons 2 3) ; => IllegalArgumentException (because 3 is not a sequence)
 
 ; This makes it impossible to write a test without implementing a linked list data
 ; structure in Clojure (like Max Countryman [did](http://macromancy.com/2014/01/16/data
