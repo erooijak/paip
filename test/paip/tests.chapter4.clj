@@ -1,8 +1,8 @@
 (ns paip.chapter4
   (:require [clojure.test :refer :all]
-            [paip.exercise4_1 :refer :all]))
+            [paip.exercise4_2 :refer :all]))
 
-(deftest test-exercise-4-1
+(deftest test-exercise-4-2
   (testing "add-all-positions should add element e at every position in coll"
     (is (= (add-all-positions 1 [2 3 4])
            [[1 2 3 4]
