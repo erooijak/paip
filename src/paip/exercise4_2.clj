@@ -1,4 +1,4 @@
-(ns paip.exercise4_2)
+(ns paip.exercise4_1)
 
 ;; First question is Common Lisp specific.
 
@@ -28,3 +28,16 @@
 
 (count (permutations [1 2 3 4]))
 ;; => 24
+
+;; In the answer of Norvig a question later in the book is referenced.
+;; This question (p.560 )states that the algorithm is O(N^2) and asks if we can find a solution that is O(n).
+
+;; First check if my answer is N^2.
+;; I think it is since it loops over itself every time.
+;; But "meten is weten" (to measure is to know).
+
+;; Let's print the time it takes for N = 1 till N = 10
+(map #(println (str "N = " % " " (time (do (permutations (range %)) nil))))
+     (range 1 10))
+
+; => "Elapsed time: 0.60416 msecs"
