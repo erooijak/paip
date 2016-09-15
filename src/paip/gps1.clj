@@ -3,28 +3,20 @@
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; -*-
 ;;; Code from Paradigms of Artificial Intelligence Programming
 ;;; Copyright (c) 1991 Peter Norvig
-;;; Code translated to Clojure by me.
 
 ;;;; File gps1.lisp: First version of GPS (General Problem Solver)
 
+;;; Code translated to Clojure by me.
+
 (def state
   "The current state: a list of conditions."
-  (atom nil))
+  (atom []))
 
 (def ops
   "A list of available operators."
-  (atom nil))
+  (atom []))
 
 (defrecord Op [action preconds add-list del-list])
-
-(defn apply-op
-  "Print a message and update *state* if op is applicable."
-  [op]
-  (when (every? achieve (:preconds op))
-    (println (list :executing (:action op)))
-    (reset! state (clojure.set/difference state (:del-list op)))
-    (reset! state (clojure.set/union state (:add-list op)))
-    t))
 
 (defn appropriate?
   "An op is appropriate to a goal if it is in its add list."
@@ -38,6 +30,14 @@
   (or (some #(= % goal) @state)
       (some apply-op
             (filter #(appropriate? goal %) @ops))))
+
+(defn apply-op
+  "Print a message and update *state* if op is applicable."
+  [op]
+  (when (every? achieve (:preconds op))
+    (println (list :executing (:action op)))
+    (reset! state (clojure.set/difference (set @state) (:del-list op)))
+    (reset! state (clojure.set/union (set @state) (:add-list op)))))
 
 (defn GPS
   "General Problem Solver: achieve all goals using *ops*."
