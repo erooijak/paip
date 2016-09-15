@@ -1,5 +1,6 @@
 (ns paip.gps1)
 
+
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; -*-
 ;;; Code from Paradigms of Artificial Intelligence Programming
 ;;; Copyright (c) 1991 Peter Norvig
@@ -23,6 +24,7 @@
   [goal op]
   (some #(= % goal) (:add-list op)))
 
+(declare apply-op)
 (defn achieve
   "A goal is achieved if it already holds,
   or if there is an appropriate op for it that is applicable."
@@ -35,7 +37,7 @@
   "Print a message and update *state* if op is applicable."
   [op]
   (when (every? achieve (:preconds op))
-    (println (list :executing (:action op)))
+    (println "Executing" (:action op))
     (reset! state (clojure.set/difference (set @state) (:del-list op)))
     (reset! state (clojure.set/union (set @state) (:add-list op)))))
 
@@ -74,6 +76,7 @@
         [:shop-has-money]
         [:have-money])])
 
-(GPS [:son-at-home :car-needs-battery :have-money :have-phone-book]
-     [:son-at-school]
-     school-ops)
+(do
+  (GPS [:son-at-home :car-needs-battery :have-money :have-phone-book]
+       [:son-at-school]
+       school-ops))
