@@ -76,7 +76,6 @@
         [:shop-has-money]
         [:have-money])])
 
-(do
-  (GPS [:son-at-home :car-needs-battery :have-money :have-phone-book]
-       [:son-at-school]
-       school-ops))
+(GPS [:son-at-home :car-needs-battery :have-money :have-phone-book]
+     [:son-at-school]
+     school-ops)
