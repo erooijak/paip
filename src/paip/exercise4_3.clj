@@ -14,7 +14,7 @@
 ;; (1) Design a list of operators to represent this situation.
 
 (def dessert-ops
-  [(Op. :eating-ice-cream
+  #{(Op. :eating-ice-cream
         #{:having-ice-cream}
         #{:eating-dessert}
         #{:having-ice-cream})
@@ -25,7 +25,7 @@
    (Op. :buying-cake
         #{:able-to-buy-cake}
         #{:having-cake}
-        nil)])
+        nil)})
 
 
 ;; (2) give GPS the goal of eating dessert. Show that with the right list of

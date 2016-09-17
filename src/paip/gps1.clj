@@ -51,7 +51,7 @@
 ;;; ==============================
 
 (def school-ops
-  [(Op. :drive-son-to-school
+  #{(Op. :drive-son-to-school
         #{:son-at-home :car-works}
         #{:son-at-school}
         #{:son-at-home})
@@ -74,7 +74,7 @@
    (Op. :give-shop-money
         #{:have-money}
         #{:shop-has-money}
-        #{:have-money})])
+        #{:have-money})})
 
 (GPS #{:son-at-home :car-needs-battery :have-money :have-phone-book}
      #{:son-at-school}
