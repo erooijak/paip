@@ -2,6 +2,7 @@
   (:require [paip.gps1 :refer :all])
   (:import [paip.gps1 Op]))
 
+;; Exercise 4.3 [h]
 ;; GPS does not recognize the situation where a goal is accidentally solved as
 ;; part of achieving another goal. Consider the goal of eating dessert. Assume
 ;; that there are two operators available: eating ice cream (which requires
@@ -44,4 +45,26 @@
 
 ;; (3) Fix GPS so that it does not manifest this problem.
 
-;; TODO
+;; Add a check to see is operations are already achieved:
+
+(defn already-achieved?
+  "Checks if new operations are not already achieved"
+  [ops]
+  (some (fn [op] (some #(= op %) @state)) ops))
+
+;; And add this check to apply-op (and ensure to return true since the value is used)
+
+(defn apply-op
+  "Print a message and update *state* if op is applicable."
+  [op]
+  (when (every? achieve (:preconds op))
+    (when-not (already-achieved? (:add-list op))
+      (reset! state (clojure.set/difference (set @state) (:del-list op)))
+      (reset! state (clojure.set/union (set @state) (:add-list op)))
+      (println "Executing" (:action op)))
+    true))
+
+;; Leads to:
+
+;; => Executing :buying-cake
+;;    Executing :eating-cake
