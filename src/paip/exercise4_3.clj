@@ -15,16 +15,16 @@
 
 (def dessert-ops
   [(Op. :eating-ice-cream
-        [:having-ice-cream]
-        [:eating-dessert]
-        [:having-ice-cream])
+        #{:having-ice-cream}
+        #{:eating-dessert}
+        #{:having-ice-cream})
    (Op. :eating-cake
-        [:having-cake]
-        [:eating-dessert :having-ice-cream]
-        [:having-cake])
+        #{:having-cake}
+        #{:eating-dessert :having-ice-cream}
+        #{:having-cake})
    (Op. :buying-cake
-        [:able-to-buy-cake]
-        [:having-cake]
+        #{:able-to-buy-cake}
+        #{:having-cake}
         nil)])
 
 
@@ -34,8 +34,8 @@
 ;; cream, even though the goal of eating dessert has already been achieved by
 ;; eating the cake.
 
-(GPS [:able-to-buy-cake]
-     [:eating-dessert]
+(GPS #{:able-to-buy-cake}
+     #{:eating-dessert}
      dessert-ops)
 
 ;; => Executing :buying-cake
@@ -50,7 +50,7 @@
 (defn already-achieved?
   "Checks if new operations are not already achieved"
   [ops]
-  (some (fn [op] (some #(= op %) @state)) ops))
+  (clojure.set/subset? @state ops))
 
 ;; And add this check to apply-op (and ensure to return true since the value is used)
 
@@ -64,7 +64,7 @@
       (println "Executing" (:action op)))
     true))
 
-;; Leads to:
+;; ;; Leads to:
 
-;; => Executing :buying-cake
-;;    Executing :eating-cake
+;; ;; => Executing :buying-cake
+;; ;;    Executing :eating-cake

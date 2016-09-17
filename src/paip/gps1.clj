@@ -11,11 +11,11 @@
 
 (def state
   "The current state: a list of conditions."
-  (atom []))
+  (atom #{}))
 
 (def ops
   "A list of available operators."
-  (atom []))
+  (atom #{}))
 
 (defrecord Op [action preconds add-list del-list])
 
@@ -38,8 +38,8 @@
   [op]
   (when (every? achieve (:preconds op))
     (println "Executing" (:action op))
-    (reset! state (clojure.set/difference (set @state) (:del-list op)))
-    (reset! state (clojure.set/union (set @state) (:add-list op)))))
+    (reset! state (clojure.set/difference @state (:del-list op)))
+    (reset! state (clojure.set/union @state (:add-list op)))))
 
 (defn GPS
   "General Problem Solver: achieve all goals using *ops*."
@@ -52,30 +52,30 @@
 
 (def school-ops
   [(Op. :drive-son-to-school
-        [:son-at-home :car-works]
-        [:son-at-school]
-        [:son-at-home])
+        #{:son-at-home :car-works}
+        #{:son-at-school}
+        #{:son-at-home})
    (Op. :shop-installs-battery
-        [:car-needs-battery :shop-knows-problem :shop-has-money]
-        [:car-works]
+        #{:car-needs-battery :shop-knows-problem :shop-has-money}
+        #{:car-works}
         nil)
    (Op. :tell-shop-problem
-        [:in-communication-with-shop]
-        [:shop-knows-problem]
+        #{:in-communication-with-shop}
+        #{:shop-knows-problem}
         nil)
    (Op. :telephone-shop
-        [:know-phone-number]
-        [:in-communication-with-shop]
+        #{:know-phone-number}
+        #{:in-communication-with-shop}
         nil)
    (Op. :look-up-number
-        [:have-phone-book]
-        [:know-phone-number]
+        #{:have-phone-book}
+        #{:know-phone-number}
         nil)
    (Op. :give-shop-money
-        [:have-money]
-        [:shop-has-money]
-        [:have-money])])
+        #{:have-money}
+        #{:shop-has-money}
+        #{:have-money})])
 
-(GPS [:son-at-home :car-needs-battery :have-money :have-phone-book]
-     [:son-at-school]
+(GPS #{:son-at-home :car-needs-battery :have-money :have-phone-book}
+     #{:son-at-school}
      school-ops)
