@@ -50,7 +50,7 @@
 (defn already-achieved?
   "Checks if new operations are not already achieved"
   [ops]
-  (clojure.set/subset? @state ops))
+  (clojure.set/subset? ops @state))
 
 ;; And add this check to apply-op (and ensure to return true since the value is used)
 
