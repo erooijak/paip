@@ -1,6 +1,7 @@
 # paip
 
-Selected exercises from Paradigms of Artificial Intelligence Programming (in Clojure).
+Selected exercises from Paradigms of Artificial Intelligence Programming
+(in Clojure).
 
 ## License
 

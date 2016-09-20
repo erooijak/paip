@@ -16,7 +16,7 @@
     (loop [n 0 acc []]
       (if (> n size) acc
           (let [[before after] (split-at n coll)
-                permutation (vec (concat before [elem] after))]
+                permutation (concat before [elem] after)]
             (recur (inc n) (conj acc permutation)))))))
 
 (defn permutations

@@ -52,29 +52,29 @@
 
 (def school-ops
   #{(Op. :drive-son-to-school
-        #{:son-at-home :car-works}
-        #{:son-at-school}
-        #{:son-at-home})
-   (Op. :shop-installs-battery
-        #{:car-needs-battery :shop-knows-problem :shop-has-money}
-        #{:car-works}
-        nil)
-   (Op. :tell-shop-problem
-        #{:in-communication-with-shop}
-        #{:shop-knows-problem}
-        nil)
-   (Op. :telephone-shop
-        #{:know-phone-number}
-        #{:in-communication-with-shop}
-        nil)
-   (Op. :look-up-number
-        #{:have-phone-book}
-        #{:know-phone-number}
-        nil)
-   (Op. :give-shop-money
-        #{:have-money}
-        #{:shop-has-money}
-        #{:have-money})})
+         #{:son-at-home :car-works}
+         #{:son-at-school}
+         #{:son-at-home})
+    (Op. :shop-installs-battery
+         #{:car-needs-battery :shop-knows-problem :shop-has-money}
+         #{:car-works}
+         nil)
+    (Op. :tell-shop-problem
+         #{:in-communication-with-shop}
+         #{:shop-knows-problem}
+         nil)
+    (Op. :telephone-shop
+         #{:know-phone-number}
+         #{:in-communication-with-shop}
+         nil)
+    (Op. :look-up-number
+         #{:have-phone-book}
+         #{:know-phone-number}
+         nil)
+    (Op. :give-shop-money
+         #{:have-money}
+         #{:shop-has-money}
+         #{:have-money})})
 
 (GPS #{:son-at-home :car-needs-battery :have-money :have-phone-book}
      #{:son-at-school}

@@ -15,17 +15,17 @@
 
 (def dessert-ops
   #{(Op. :eating-ice-cream
-        #{:having-ice-cream}
-        #{:eating-dessert}
-        #{:having-ice-cream})
-   (Op. :eating-cake
-        #{:having-cake}
-        #{:eating-dessert :having-ice-cream}
-        #{:having-cake})
-   (Op. :buying-cake
-        #{:able-to-buy-cake}
-        #{:having-cake}
-        nil)})
+         #{:having-ice-cream}
+         #{:eating-dessert}
+         #{:having-ice-cream})
+    (Op. :eating-cake
+         #{:having-cake}
+         #{:eating-dessert :having-ice-cream}
+         #{:having-cake})
+    (Op. :buying-cake
+         #{:able-to-buy-cake}
+         #{:having-cake}
+         nil)})
 
 
 ;; (2) give GPS the goal of eating dessert. Show that with the right list of
