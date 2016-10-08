@@ -68,7 +68,7 @@
   [phrase]
   (cond (vector? phrase)
         (mapcat generate phrase)
-        (not (empty? (rewrites phrase)))
+        (seq (rewrites phrase))
         (generate (rand-nth (rewrites phrase)))
         :else
         (list phrase)))
@@ -85,7 +85,7 @@
   [phrase]
   (cond (vector? phrase)
         (map generate-tree phrase)
-        (not (empty? (rewrites phrase)))
+        (seq (rewrites phrase))
         (cons phrase
               (generate-tree (rand-nth (rewrites phrase))))
         :else (list phrase)))
@@ -121,7 +121,7 @@
   (cond (vector? phrase)
         (combine-all (generate-all (first phrase))
                      (mapcat generate-all (rest phrase)))
-        (not (empty? (rewrites phrase)))
+        (seq (rewrites phrase))
         (mapcat generate-all (rewrites phrase))
         :else
         (list phrase)))
